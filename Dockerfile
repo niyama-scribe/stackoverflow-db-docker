@@ -14,15 +14,10 @@ RUN find /opt/so-db/bin/ -type f -print0 | xargs -0 dos2unix && \
     find /opt/so-db/bin/ -type f -print0 | xargs -0 chmod +x && \
     mkdir -p /opt/so-db/wkdir
 
-COPY --from=so-data-image /opt/so-data/StackOverflow2010.7z /opt/so-db/wkdir/
+COPY --from=niyamascribe/stackoverflow-data:0.1.0 /opt/so-data/StackOverflow2010.7z /opt/so-db/wkdir/
 
 RUN chown mssql: /opt/so-db/wkdir && \
     chmod 0744 /opt/so-db/wkdir
-
-# RUN 7z e /opt/so-db/wkdir/StackOverflow2010.7z -oc:/opt/so-db/wkdir && \
-#     rm /opt/so-db/wkdir/StackOverflow2010.7z && \
-#     chown mssql: /opt/so-db/wkdir/StackOverflow2010*df && \
-#     chmod 0744 /opt/so-db/wkdir/StackOverflow2010*df
 
 ENV ACCEPT_EULA=Y
 ENV SA_PASSWORD=N3v3r!nPr0d
